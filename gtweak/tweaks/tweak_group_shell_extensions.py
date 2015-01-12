@@ -311,9 +311,10 @@ class ShellExtensionTweakGroup(ListBoxTweakGroup):
             resp = resp['shell_version_map']
             shell = GnomeShellFactory().get_shell()
             version = _fix_shell_version_for_ego(shell.version)
+            major_minor_version = _get_shell_major_minor_version(shell.version)
 
-            if version in resp:
-                resp = resp[version]
+            if version in resp or major_minor_version in resp:
+                resp = resp[version] if version in resp else resp[major_minor_version]
                 ext_version = extension["version"] if "version" in extension else 0
                 if int(resp["version"]) > ext_version:
                     widget.add_update_button(uuid)
